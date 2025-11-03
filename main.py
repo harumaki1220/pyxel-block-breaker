@@ -66,6 +66,14 @@ class App:
                 if self.ball_vy > 0:
                     self.ball_vy = -self.ball_vy
 
+        for block in self.blocks:
+            if block["alive"]:
+                if block["x"] <= self.ball_x and self.ball_x <= block["x"] + BLOCK_WIDTH:
+                    if block["y"] <= self.ball_y and self.ball_y <= block["y"] + BLOCK_HEIGHT:
+                        block["alive"] = False
+                        self.ball_vy = -self.ball_vy
+                        break
+
     def draw(self):
         pyxel.cls(pyxel.COLOR_BLACK)
         pyxel.rect(
