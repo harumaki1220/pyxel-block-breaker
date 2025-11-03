@@ -16,13 +16,15 @@ class App:
         self.paddle_x = (SCREEN_WIDTH - PADDLE_WIDTH) // 2
         self.paddle_y = SCREEN_HEIGHT - PADDLE_HEIGHT - 5
 
-        self.ball_x = self.paddle_x
-        self.ball_y = self.paddle_y - 5
-
-        self.ball_vx = 1
-        self.ball_vy = -1
+        self.reset_ball()
 
         pyxel.run(self.update, self.draw)
+
+    def reset_ball(self):
+        self.ball_x = self.paddle_x + PADDLE_WIDTH // 2
+        self.ball_y = self.paddle_y - 5
+        self.ball_vx = 1
+        self.ball_vy = -1
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_ESCAPE):
@@ -44,8 +46,10 @@ class App:
         # 当たり判定のロジック
         if self.ball_x <= BALL_RADIUS or self.ball_x >= SCREEN_WIDTH - BALL_RADIUS:
             self.ball_vx = -self.ball_vx
-        if self.ball_y <= BALL_RADIUS or self.ball_y >= SCREEN_HEIGHT - BALL_RADIUS:
+        if self.ball_y <= BALL_RADIUS:
             self.ball_vy = -self.ball_vy
+        if self.ball_y >= SCREEN_HEIGHT - BALL_RADIUS:
+            self.reset_ball()
 
         # パドルとの当たり判定
         if self.paddle_x <= self.ball_x and self.ball_x <= self.paddle_x + PADDLE_WIDTH:
