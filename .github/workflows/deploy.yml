@@ -28,7 +28,7 @@ jobs:
         run: pip install pyxel
 
       - name: Build Pyxel App
-        run: python -m pyxel package pyxel-block-breaker pyxel-block-breaker/main.py
+        run: python -m pyxel package . main.py
 
       - name: Build HTML
         run: python -m pyxel app2html pyxel-block-breaker.pyxapp
