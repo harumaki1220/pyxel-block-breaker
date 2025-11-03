@@ -9,6 +9,9 @@ PADDLE_SPEED = 2
 
 BALL_RADIUS = 2
 
+BLOCK_WIDTH = 20
+BLOCK_HEIGHT = 5
+
 class App:
     def __init__(self):
         pyxel.init(SCREEN_WIDTH, SCREEN_HEIGHT, title="ブロック崩し")
@@ -17,6 +20,12 @@ class App:
         self.paddle_y = SCREEN_HEIGHT - PADDLE_HEIGHT - 5
 
         self.reset_ball()
+
+        self.blocks = []
+        for row in range(5):
+            for col in range(8):
+                block = {"x": col * BLOCK_WIDTH, "y": row * BLOCK_HEIGHT + 10, "alive": True}
+                self.blocks.append(block)
 
         pyxel.run(self.update, self.draw)
 
@@ -72,5 +81,14 @@ class App:
             BALL_RADIUS,
             pyxel.COLOR_WHITE
         )
+        for block in self.blocks:
+            if block["alive"]:
+                pyxel.rect(
+                    block["x"],
+                    block["y"],
+                    BLOCK_WIDTH - 1,
+                    BLOCK_HEIGHT - 1,
+                    pyxel.COLOR_LIGHT_BLUE
+                )
 
 App()
