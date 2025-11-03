@@ -16,16 +16,11 @@ class App:
     def __init__(self):
         pyxel.init(SCREEN_WIDTH, SCREEN_HEIGHT, title="ブロック崩し")
         
-        self.paddle_x = (SCREEN_WIDTH - PADDLE_WIDTH) // 2
         self.paddle_y = SCREEN_HEIGHT - PADDLE_HEIGHT - 5
 
+        self.reset_paddle()
         self.reset_ball()
-
-        self.blocks = []
-        for row in range(5):
-            for col in range(8):
-                block = {"x": col * BLOCK_WIDTH, "y": row * BLOCK_HEIGHT + 10, "alive": True}
-                self.blocks.append(block)
+        self.reset_blocks()
 
         self.scene = "play"
         pyxel.run(self.update, self.draw)
@@ -35,6 +30,16 @@ class App:
         self.ball_y = self.paddle_y - 5
         self.ball_vx = 1
         self.ball_vy = -1
+
+    def reset_blocks(self):
+        self.blocks = []
+        for row in range(5):
+            for col in range(8):
+                block = {"x": col * BLOCK_WIDTH, "y": row * BLOCK_HEIGHT + 10, "alive": True}
+                self.blocks.append(block)
+
+    def reset_paddle(self):
+        self.paddle_x = (SCREEN_WIDTH - PADDLE_WIDTH) // 2
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_ESCAPE):
@@ -76,6 +81,13 @@ class App:
                             self.ball_vy = -self.ball_vy
                             break
 
+        elif self.scene == "gameover":
+            if pyxel.btnp(pyxel.KEY_RETURN):
+                self.reset_paddle()
+                self.reset_ball()
+                self.reset_blocks()
+                self.scene = "play"
+
     def draw(self):
         pyxel.cls(pyxel.COLOR_BLACK)
 
@@ -105,5 +117,6 @@ class App:
 
         elif self.scene == "gameover":
             pyxel.text(60, 60, "GAME OVER", pyxel.COLOR_WHITE)
+            pyxel.text(55, 80, "PRESS ENTER", pyxel.COLOR_WHITE)
 
 App()
