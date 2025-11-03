@@ -21,6 +21,9 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: Install SDL2
+        run: sudo apt-get update && sudo apt-get install -y libsdl2-2.0-0
+
       - name: Install Pyxel
         run: pip install pyxel
 
