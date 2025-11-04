@@ -11,6 +11,8 @@ BALL_RADIUS = 2
 
 BLOCK_WIDTH = 20
 BLOCK_HEIGHT = 5
+BLOCK_MARGIN_X = 10
+BLOCK_MARGIN_Y = 15
 
 class App:
     def __init__(self):
@@ -33,9 +35,14 @@ class App:
 
     def reset_blocks(self):
         self.blocks = []
+        num_cols = (SCREEN_WIDTH - (BLOCK_MARGIN_X * 2)) // BLOCK_WIDTH
         for row in range(5):
-            for col in range(8):
-                block = {"x": col * BLOCK_WIDTH, "y": row * BLOCK_HEIGHT + 10, "alive": True}
+            for col in range(num_cols):
+                block = {
+                    "x": col * BLOCK_WIDTH + BLOCK_MARGIN_X, 
+                    "y": row * BLOCK_HEIGHT + BLOCK_MARGIN_Y, 
+                    "alive": True
+                }
                 self.blocks.append(block)
 
     def reset_paddle(self):
