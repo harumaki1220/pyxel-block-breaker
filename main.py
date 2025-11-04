@@ -68,10 +68,15 @@ class App:
                 self.scene = "gameover"
 
             # パドルとの当たり判定
-            if self.paddle_x <= self.ball_x and self.ball_x <= self.paddle_x + PADDLE_WIDTH:
-                if self.ball_y + BALL_RADIUS >= self.paddle_y:
-                    if self.ball_vy > 0:
-                        self.ball_vy = -self.ball_vy
+            if self.paddle_x <= self.ball_x and self.ball_x <= self.paddle_x + PADDLE_WIDTH and self.ball_y + BALL_RADIUS >= self.paddle_y and self.ball_vy > 0:
+                self.ball_vy = -self.ball_vy
+                paddle_center_x = self.paddle_x + PADDLE_WIDTH / 2
+                difference_x = self.ball_x - paddle_center_x
+                self.ball_vx = difference_x * 0.1
+                if self.ball_vx > 2:
+                    self.ball_vx = 2
+                if self.ball_vx < -2:
+                    self.ball_vx = -2
 
             for block in self.blocks:
                 if block["alive"]:
