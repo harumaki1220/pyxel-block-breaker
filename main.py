@@ -75,11 +75,20 @@ class App:
 
             for block in self.blocks:
                 if block["alive"]:
-                    if block["x"] <= self.ball_x and self.ball_x <= block["x"] + BLOCK_WIDTH:
-                        if block["y"] <= self.ball_y and self.ball_y <= block["y"] + BLOCK_HEIGHT:
-                            block["alive"] = False
-                            self.ball_vy = -self.ball_vy
-                            break
+                    if block["x"] <= self.ball_x and self.ball_x <= block["x"] + BLOCK_WIDTH and block["y"] <= self.ball_y and self.ball_y <= block["y"] + BLOCK_HEIGHT:
+                        block["alive"] = False
+
+                        block_center_x = block["x"] + BLOCK_WIDTH / 2
+                        block_center_y = block["y"] + BLOCK_HEIGHT / 2
+
+                        x_ratio = abs(self.ball_x - block_center_x) / BLOCK_WIDTH
+                        y_ratio = abs(self.ball_y - block_center_y) / BLOCK_HEIGHT
+
+                        if x_ratio > y_ratio:
+                            self.ball_vx = -self.ball_vx # 横から当たった
+                        else:
+                            self.ball_vy = -self.ball_vy # 上下から当たった
+                        break
 
         elif self.scene == "gameover":
             if pyxel.btnp(pyxel.KEY_RETURN):
