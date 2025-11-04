@@ -100,9 +100,20 @@ class App:
                             self.ball_vx = -self.ball_vx # 横から当たった
                         else:
                             self.ball_vy = -self.ball_vy # 上下から当たった
+
+                        if not any(b["alive"] for b in self.blocks):
+                            self.scene = "clear"
                         break
+                        
 
         elif self.scene == "gameover":
+            if pyxel.btnp(pyxel.KEY_RETURN):
+                self.reset_paddle()
+                self.reset_ball()
+                self.reset_blocks()
+                self.scene = "play"
+
+        elif self.scene == "clear":
             if pyxel.btnp(pyxel.KEY_RETURN):
                 self.reset_paddle()
                 self.reset_ball()
@@ -138,6 +149,10 @@ class App:
 
         elif self.scene == "gameover":
             pyxel.text(60, 60, "GAME OVER", pyxel.COLOR_WHITE)
+            pyxel.text(55, 80, "PRESS ENTER", pyxel.COLOR_WHITE)
+
+        elif self.scene == "clear":
+            pyxel.text(60, 60, "GAME CLEAR", pyxel.COLOR_WHITE)
             pyxel.text(55, 80, "PRESS ENTER", pyxel.COLOR_WHITE)
 
 App()
